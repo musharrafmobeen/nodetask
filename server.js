@@ -4,6 +4,9 @@ const PORT = process.env.PORT || 5000;
 
 fastify.register(require('./routes/usersRoutes'));
 
+fastify.addHook('onError', async (request, reply, error) => {
+  return {error};
+})
 
 const start = async() => {
     try {

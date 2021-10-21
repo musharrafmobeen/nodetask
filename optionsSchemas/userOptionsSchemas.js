@@ -1,4 +1,4 @@
-const {registerUser,userLogin,getAllUsers,verifyUser} = require('../controllers/userControllers');
+const {registerUser,userLogin,getAllUsers,verifyUser,forgotPassword,updatePassword} = require('../controllers/userControllers');
 const mongodb = require('mongodb');
 
 
@@ -29,14 +29,6 @@ const registerUserOptions = {
 
 const verifyUserOptions = {
     schema:{
-        body:{
-            type:'object',
-            required:['email','password'],
-            properties:{
-                email: {type:'string'},
-                password: {type:'string'}
-            }
-        },
         response:{
             201:{
                 type:'object',
@@ -84,9 +76,15 @@ const userLoginOptions = {
             200:{
                 type : 'object',
                 properties:{
-                    _id : {type:'string'},
-                    email:{type:'string'},
-                    password:{type:'string'}
+                    user:{
+                    type : 'object',
+                        properties:{
+                            _id : {type:"string"},
+                            email:{type:'string'},
+                            password:{type:'string'}
+                        }
+                    },
+                    token:{type:'string'}
                 }
             }
         }
@@ -94,9 +92,53 @@ const userLoginOptions = {
     handler: userLogin
 }
 
+const forgotPasswordOptions = {
+    schema:{
+        body:{
+            type:'object',
+            required:['email'],
+            properties:{
+                email: {type:'string'}
+            }
+        },
+        response:{
+            200:{
+                type:'object',
+                properties:{
+                    message:{type:'string'},
+                    statusCode:{type:'number'}
+                }
+            }
+        }
+    },
+    handler: forgotPassword
+}
+
+const updatePasswordOptions = {
+    schema:{
+        body:{
+            type:'object',
+            required:['email'],
+            properties:{
+                email: {type:'string'}
+            }
+        },
+        response:{
+            200:{
+                type:'object',
+                properties:{
+                    message:{type:'string'},
+                    statusCode:{type:'number'}
+                }
+            }
+        }
+    },
+    handler: updatePassword
+}
 
 module.exports = {
     registerUserOptions,
     getUserOptions,
-    userLoginOptions
+    userLoginOptions,
+    verifyUserOptions
 }

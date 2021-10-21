@@ -1,4 +1,4 @@
-const {getUserOptions, registerUserOptions, userLoginOptions} = require('../optionsSchemas/userOptionsSchemas');
+const {getUserOptions, registerUserOptions, userLoginOptions, verifyUserOptions} = require('../optionsSchemas/userOptionsSchemas');
 
 
 
@@ -15,7 +15,7 @@ const userRoutes = (fastify,options,done) => {
     fastify.post('/users', registerUserOptions);
 
     //
-    // fastify.get('/userVerification/:verificarionId', );
+    fastify.get('/userVerification/:verificationId', verifyUserOptions);
 
 
 
