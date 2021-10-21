@@ -1,4 +1,4 @@
-const {addBook,userLogin,getAllBooks,verifyUser,forgotPassword,updatePassword} = require('../controllers/booksControllers');
+const {addBook,updateOneBook,getAllBooks,deleteOneBook,getOneBook} = require('../controllers/booksControllers');
 const mongodb = require('mongodb');
 
 
@@ -16,8 +16,8 @@ const addBookOptions = {
             201:{
                 type:'object',
                 properties:{
-                    name: {type:'string'},
-                    author: {type:'string'}
+                    message:{type:'string'},
+                    statusCode:{type:'number'}
                 }
             }
         }
@@ -26,20 +26,6 @@ const addBookOptions = {
 }
 
 
-const verifyUserOptions = {
-    schema:{
-        response:{
-            201:{
-                type:'object',
-                properties:{
-                    message:{type:'string'},
-                    statusCode:{type:'number'}
-                }
-            }
-        }
-    },
-    handler:verifyUser
-}
 
 
 const getBooksOptions = {
@@ -61,87 +47,91 @@ const getBooksOptions = {
     handler:getAllBooks
 }
 
-const userLoginOptions = {
+
+const getOneBookOptions = {
     schema:{
-        body:{
-            type:'object',
-            required:['email','password'],
-            properties:{
-                email: {type:'string'},
-                password: {type:'string'}
-            }
-        },
         response:{
             200:{
-                type : 'object',
-                properties:{
-                    user:{
                     type : 'object',
-                        properties:{
-                            _id : {type:"string"},
-                            email:{type:'string'},
-                            password:{type:'string'}
-                        }
-                    },
-                    token:{type:'string'}
+                    properties:{
+                        _id : {type:'string'},
+                        name:{type:'string'},
+                        author:{type:'string'}
+                    }
                 }
-            }
+            
         }
     },
-    handler: userLogin
+    handler:getOneBook
 }
 
-const forgotPasswordOptions = {
+
+const deleteBookOptions = {
     schema:{
         body:{
             type:'object',
-            required:['email'],
+            required:['name'],
             properties:{
-                email: {type:'string'}
+                name: {type:'string'}
+            }
+        },
+       response:{
+            200:{
+                    type : 'object',
+                    properties:{
+                        message:{type:'string'},
+                        book:{
+                            type:'object',
+                            properties:{
+                                _id : {type:'string'},
+                                name:{type:'string'},
+                                author:{type:'string'}
+                            }
+                        }
+                    }
+                }
+            
+        }
+    },
+    handler:deleteOneBook
+}
+
+
+const updateBookOptions = {
+    schema:{
+        body:{
+            type:'object',
+            required:['name','author'],
+            properties:{
+                name: {type:'string'},
+                author: {type:'string'}
             }
         },
         response:{
             200:{
-                type:'object',
-                properties:{
-                    message:{type:'string'},
-                    statusCode:{type:'number'}
+                    type : 'object',
+                    properties:{
+                        message:{type:'string'},
+                        book:{
+                            type:'object',
+                            properties:{
+                                _id : {type:'string'},
+                                name:{type:'string'},
+                                author:{type:'string'}
+                            }
+                        }
+                    }
                 }
-            }
+            
         }
     },
-    handler: forgotPassword
-}
-
-const updatePasswordOptions = {
-    schema:{
-        body:{
-            type:'object',
-            required:['password'],
-            properties:{
-                password: {type:'string'}
-            }
-        },
-        response:{
-           200:{
-                type : 'object',
-                properties:{
-                    _id : {type:"string"},
-                    email:{type:'string'},
-                    password:{type:'string'}
-                }
-                
-            }
-        }
-    },
-    handler: updatePassword
+    handler:updateOneBook
 }
 
 module.exports = {
     addBookOptions,
     getBooksOptions,
-    userLoginOptions,
-    verifyUserOptions,
-    forgotPasswordOptions,
-    updatePasswordOptions
+    deleteBookOptions,
+    updateBookOptions,
+    getOneBookOptions
 }

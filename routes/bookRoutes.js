@@ -1,26 +1,21 @@
-const {getBooksOptions} = require('../optionsSchemas/booksOptionsSchema');
+const {getBooksOptions,addBookOptions,getOneBookOptions,updateBookOptions,deleteBookOptions} = require('../optionsSchemas/booksOptionsSchema');
 
 
 const userRoutes = (fastify,options,done) => {
     //get All Books
-    fastify.get('/books', getBooksOptions)
+    fastify.get('/books', getBooksOptions);
 
+    //Add A Book
+    fastify.post('/books', addBookOptions);
 
-    // //Login A User
-    // fastify.post('/user', userLoginOptions)
+    //get One Book
+    fastify.get('/books/:name', getOneBookOptions);
 
+    //Delete One Book
+    fastify.delete('/books', deleteBookOptions);
 
-    // //Register A User
-    // fastify.post('/users', registerUserOptions);
-
-    // //Verify User
-    // fastify.get('/userVerification/:verificationId', verifyUserOptions);
-
-    // //send email for password change
-    // fastify.post('/forgotPassword', forgotPasswordOptions);
-
-    // // //set new password
-    // fastify.patch('/forgotPassword/:email', updatePasswordOptions);
+    //Update One Book
+    fastify.patch('/books', updateBookOptions);
 
     done();
 }
