@@ -68,15 +68,82 @@ const userLogin = async(req,reply)=>{
       return;
 }
 
-const getAllUsers = async(req,reply)=>{
+const getAllBooks = async(req,reply)=>{
     let data = [];
-    const db = await connectToServer;
-    const collection = await db.collection('users');
-    const searchCursor = await collection.find();
-    while(await searchCursor.hasNext()){
-        data.push(await searchCursor.next());
+    const {authorization} = req.headers;
+    if(jwt.verify(authorization,process.env.JWT_KEY)){
+        const db = await connectToServer;
+        const collection = await db.collection('books');
+        const searchCursor = await collection.find();
+        while(await searchCursor.hasNext()){
+            data.push(await searchCursor.next());
+        }
+        return reply.code(200).send(data);
     }
-    return data;
+    throw new Error("Not Authorized!");
+}
+
+
+const addBook = async(req,reply)=>{
+    let data = [];
+    const {authorization} = req.headers;
+    if(jwt.verify(authorization,process.env.JWT_KEY)){
+        const db = await connectToServer;
+        const collection = await db.collection('books');
+        const searchCursor = await collection.find();
+        while(await searchCursor.hasNext()){
+            data.push(await searchCursor.next());
+        }
+        return reply.code(200).send(data);
+    }
+    throw new Error("Not Authorized!");
+}
+
+const getOneBook = async(req,reply)=>{
+    let data = [];
+    const {authorization} = req.headers;
+    if(jwt.verify(authorization,process.env.JWT_KEY)){
+        const db = await connectToServer;
+        const collection = await db.collection('books');
+        const searchCursor = await collection.find();
+        while(await searchCursor.hasNext()){
+            data.push(await searchCursor.next());
+        }
+        return reply.code(200).send(data);
+    }
+    throw new Error("Not Authorized!");
+}
+
+
+const deleteOneBook = async(req,reply)=>{
+    let data = [];
+    const {authorization} = req.headers;
+    if(jwt.verify(authorization,process.env.JWT_KEY)){
+        const db = await connectToServer;
+        const collection = await db.collection('books');
+        const searchCursor = await collection.find();
+        while(await searchCursor.hasNext()){
+            data.push(await searchCursor.next());
+        }
+        return reply.code(200).send(data);
+    }
+    throw new Error("Not Authorized!");
+}
+
+
+const updateOneBook = async(req,reply)=>{
+    let data = [];
+    const {authorization} = req.headers;
+    if(jwt.verify(authorization,process.env.JWT_KEY)){
+        const db = await connectToServer;
+        const collection = await db.collection('books');
+        const searchCursor = await collection.find();
+        while(await searchCursor.hasNext()){
+            data.push(await searchCursor.next());
+        }
+        return reply.code(200).send(data);
+    }
+    throw new Error("Not Authorized!");
 }
 
 
@@ -96,25 +163,16 @@ const forgotPassword = async(req,reply)=>{
 const updatePassword = async(req,reply)=>{
     const {email} = req.params;
     const {password} = req.body;
-    bcrypt.hash(password, 10, async (err, password) => {
-        if (err)  {
-            throw new Error("Password Change Failed")
-        } 
-        else {
-            const db = await connectToServer;
-            const collection = await db.collection('users');
-            const user = await collection.findOneAndUpdate({email},{$set:{password}});
-             return reply.code(200).send(user.value);
-        }
-    });
-    
-   
+    const db = await connectToServer;
+    const collection = await db.collection('users');
+    const user = await collection.findOneAndUpdate({email},{$set:{password}});
+    return user.value;
 }
 
 module.exports = {
     registerUser,
     userLogin,
-    getAllUsers,
+    getAllBooks,
     verifyUser,
     forgotPassword,
     updatePassword

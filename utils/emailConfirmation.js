@@ -68,7 +68,7 @@ const emailUpdatePassword = async (email) => {
     from: 'Ineffable',
     to: email,
     subject: "Email Verification",
-    html: `<p>Click Here To Update Password <a href="http://localhost:5000/updatePassword/${email}"> ${stringVerificationId} </a></p>`,
+    html: `<p>Click Here To Update Password <a href="http://localhost:5000/forgotPassword/${email}"> ${stringVerificationId} </a></p>`,
     };
 
     transporter.sendMail(mailOptions, function(error, info){

@@ -1,29 +1,28 @@
-const {registerUser,userLogin,getAllUsers,verifyUser,forgotPassword,updatePassword} = require('../controllers/userControllers');
+const {addBook,userLogin,getAllBooks,verifyUser,forgotPassword,updatePassword} = require('../controllers/booksControllers');
 const mongodb = require('mongodb');
 
 
-const registerUserOptions = {
+const addBookOptions = {
     schema:{
         body:{
             type:'object',
-            required:['email','password'],
+            required:['name','author'],
             properties:{
-                email: {type:'string'},
-                password: {type:'string'},
-                verificationId:{type:'string'}
+                name: {type:'string'},
+                author: {type:'string'}
             }
         },
         response:{
             201:{
                 type:'object',
                 properties:{
-                    message:{type:'string'},
-                    statusCode:{type:'number'}
+                    name: {type:'string'},
+                    author: {type:'string'}
                 }
             }
         }
     },
-    handler:registerUser
+    handler:addBook
 }
 
 
@@ -43,7 +42,7 @@ const verifyUserOptions = {
 }
 
 
-const getUserOptions = {
+const getBooksOptions = {
     schema:{
         response:{
             200:{
@@ -52,14 +51,14 @@ const getUserOptions = {
                     type : 'object',
                     properties:{
                         _id : {type:mongodb.ObjectId},
-                        email:{type:'string'},
-                        password:{type:'string'}
+                        name:{type:'string'},
+                        author:{type:'string'}
                     }
                 }
             }
         }
     },
-    handler:getAllUsers
+    handler:getAllBooks
 }
 
 const userLoginOptions = {
@@ -139,8 +138,8 @@ const updatePasswordOptions = {
 }
 
 module.exports = {
-    registerUserOptions,
-    getUserOptions,
+    addBookOptions,
+    getBooksOptions,
     userLoginOptions,
     verifyUserOptions,
     forgotPasswordOptions,

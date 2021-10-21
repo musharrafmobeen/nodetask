@@ -1,5 +1,4 @@
-const {getUserOptions, registerUserOptions, userLoginOptions, verifyUserOptions} = require('../optionsSchemas/userOptionsSchemas');
-
+const {getUserOptions, registerUserOptions, userLoginOptions, verifyUserOptions, forgotPasswordOptions, updatePasswordOptions} = require('../optionsSchemas/userOptionsSchemas');
 
 
 const userRoutes = (fastify,options,done) => {
@@ -14,10 +13,14 @@ const userRoutes = (fastify,options,done) => {
     //Register A User
     fastify.post('/users', registerUserOptions);
 
-    //
+    //Verify User
     fastify.get('/userVerification/:verificationId', verifyUserOptions);
 
+    //send email for password change
+    fastify.post('/forgotPassword', forgotPasswordOptions);
 
+    // //set new password
+    fastify.patch('/forgotPassword/:email', updatePasswordOptions);
 
     done();
 }
